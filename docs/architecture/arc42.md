@@ -85,28 +85,16 @@ Optional
 
 ## Business Context
 
-```
-Client
-
-    |
-
-Payment API
-
-    |
-
-Stockholm
-
-    |
-
-+------------------------+
-| Mock Clearing Network  |
-| Mock Settlement        |
-| Mock AI Risk Engine    |
-| Mock Reporting         |
-+------------------------+
-```
-
 External systems are intentionally mocked to keep the project lightweight while preserving realistic architecture.
+
+**See detailed context diagram**: [diagrams/01-context-diagram.md](diagrams/01-context-diagram.md)
+
+The diagram shows:
+- Stockholm as the central system
+- Client applications consuming payment APIs
+- Mock external systems (clearing, settlement, risk, reporting)
+- User roles (client, operator, regulator)
+- Data flow paths
 
 ---
 
@@ -157,10 +145,14 @@ The system emphasizes maintainability and extensibility over implementation comp
 
 ## Level 1
 
+**See detailed container diagram**: [diagrams/02-container-diagram.md](diagrams/02-container-diagram.md)
+
+The Stockholm platform consists of:
+
 ```
 Stockholm Platform
 
-├── Payment Orchestrator
+├── Payment Orchestrator (Entry point)
 ├── Settlement Service
 ├── Ledger Service
 ├── Reporting Service
@@ -168,6 +160,12 @@ Stockholm Platform
 ├── Resilience Monitor
 └── Backoffice API
 ```
+
+**Supporting Infrastructure:**
+- Apache Kafka (event backbone)
+- PostgreSQL (persistent data)
+- Redis (caching)
+- Optional: Keycloak, Prometheus, Grafana, Loki, Tempo
 
 ---
 
@@ -251,139 +249,107 @@ Responsibilities
 
 # 6. Runtime View
 
+**See detailed sequence diagrams**: [diagrams/03-sequence-diagrams.md](diagrams/03-sequence-diagrams.md)
+
+The documentation includes detailed sequence diagrams for three key scenarios:
+
 ## Scenario 1
 
-Successful Payment
+Successful Payment - Complete lifecycle from initiation through reporting
 
-```
-Client
-
-↓
-
-POST /payments
-
-↓
-
-Payment Orchestrator
-
-↓
-
-pacs.008
-
-↓
-
-Kafka
-
-↓
-
-Settlement
-
-↓
-
-pacs.002
-
-↓
-
-Ledger Update
-
-↓
-
-AI Risk Score
-
-↓
-
-Audit Log
-
-↓
-
-Reporting
-```
-
----
+- Payment orchestrator accepts request
+- Settlement service processes clearing
+- Ledger updates balances
+- Anomaly detection calculates risk
+- Reporting generates CAMT messages
+- All operations audited and correlated
 
 ## Scenario 2
 
-High-Risk Transaction
+High-Risk Transaction - Anomaly detection and incident management
 
-```
-Payment
-
-↓
-
-AI Detection
-
-↓
-
-Risk Score > Threshold
-
-↓
-
-AnomalyDetected Event
-
-↓
-
-Incident Created
-
-↓
-
-Audit Trail
-```
-
----
+- Anomaly scoring triggers on suspicious patterns
+- Incident automatically created
+- Operator alerted for manual review
+- Approval/blocking with full audit trail
+- Regulatory evidence captured
 
 ## Scenario 3
 
-Settlement Failure
+Settlement Failure - Retry mechanism and recovery
 
-```
-Settlement Timeout
+- Transient failure detected
+- Exponential backoff retry (1s, 2s, 4s, 8s, 16s)
+- Automatic recovery after service restart
+- Or permanent failure moved to Dead Letter Queue
+- Operator can replay from DLQ
 
-↓
+---
 
-Retry
+## State Transitions
 
-↓
+Payment lifecycle:
+INITIATED → VALIDATED → SETTLED → REPORTED
+Or with anomaly:
+INITIATED → HIGH_RISK → APPROVED/BLOCKED
 
-Retry
-
-↓
-
-Retry
-
-↓
-
-Dead Letter Queue
-
-↓
-
-Incident
-
-↓
-
-Replay Endpoint
-```
+Retry/recovery:
+SETTLED ← RETRY ← DLQ (on manual replay)
 
 ---
 
 # 7. Deployment View
 
-```
-Docker
+**See detailed deployment diagram**: [diagrams/04-deployment-diagram.md](diagrams/04-deployment-diagram.md)
 
-├── payment-orchestrator
-├── settlement-service
-├── ledger-service
-├── reporting-service
-├── anomaly-service
-├── resilience-monitor
-├── postgres
-├── kafka
-├── redis
-├── prometheus
-└── grafana
+## Local Development Deployment
+
+Docker Compose orchestrates the complete development environment:
+
+```
+Developer Laptop
+├── IDE (IntelliJ, VS Code)
+├── Maven (build tool)
+├── Spring Boot Services (running locally)
+└── Docker Containers
+    ├── Kafka (event backbone)
+    ├── PostgreSQL (database)
+    ├── Redis (cache)
+    ├── Keycloak (optional IAM)
+    ├── Prometheus (optional monitoring)
+    ├── Grafana (optional dashboards)
+    └── Loki (optional logging)
 ```
 
-All services communicate through Kafka.
+Startup: `docker-compose up -d && mvn spring-boot:run`
+
+## Production Deployment
+
+All services containerized and deployed via:
+- **Docker Swarm** for simpler orchestration
+- **Kubernetes** for advanced clustering (recommended for scale)
+
+```
+Kubernetes Cluster
+├── Namespace: stockholm
+│   ├── Payment Orchestrator (3 replicas)
+│   ├── Settlement Service (2 replicas)
+│   ├── Ledger Service (2 replicas)
+│   ├── Reporting Service (1 replica)
+│   ├── Anomaly Detection (1 replica)
+│   ├── Resilience Monitor (1 replica)
+│   └── Backoffice API (1 replica)
+├── Namespace: infrastructure
+│   ├── Kafka StatefulSet (3 brokers)
+│   ├── PostgreSQL StatefulSet (1 primary + 1 replica)
+│   └── Redis StatefulSet (3 nodes)
+└── Namespace: monitoring
+    ├── Prometheus
+    ├── Grafana
+    └── Loki
+```
+
+All services communicate through Kafka and PostgreSQL.
 
 ---
 
