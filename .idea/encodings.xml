@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/services/anomaly-detection-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/backoffice-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/ledger-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/payment-orchestrator/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/reporting-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/resilience-monitor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/settlement-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>
