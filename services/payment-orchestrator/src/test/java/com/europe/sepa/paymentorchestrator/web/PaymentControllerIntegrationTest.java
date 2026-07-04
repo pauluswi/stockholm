@@ -2,11 +2,16 @@ package com.europe.sepa.paymentorchestrator.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.europe.sepa.paymentorchestrator.testsupport.KafkaIntegrationTest;
+import com.europe.sepa.paymentorchestrator.testsupport.TestKafkaTopics;
 import com.europe.sepa.paymentorchestrator.web.dto.PaymentRequest;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.kafka.test.EmbeddedKafkaBroker;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -20,13 +25,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @KafkaIntegrationTest
 @AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PaymentControllerIntegrationTest {
-    
+    private final MockMvc mockMvc;
+    private final ObjectMapper objectMapper;
+    private final EmbeddedKafkaBroker embeddedKafkaBroker;
+
+    private TestKafkaTopics kafkaTopics;
+
     @Autowired
-    private MockMvc mockMvc;
-    
-    @Autowired
-    private ObjectMapper objectMapper;
+    public PaymentControllerIntegrationTest(MockMvc mockMvc,
+                                            ObjectMapper objectMapper,
+                                            EmbeddedKafkaBroker embeddedKafkaBroker) {
+        this.mockMvc = mockMvc;
+        this.objectMapper = objectMapper;
+        this.embeddedKafkaBroker = embeddedKafkaBroker;
+    }
+
+    @BeforeAll
+    void setUpTopics() {
+        kafkaTopics = new TestKafkaTopics(embeddedKafkaBroker);
+        kafkaTopics.recreateTopics("payment.initiated");
+    }
+
+    @AfterAll
+    void tearDownTopics() {
+        kafkaTopics.deleteTopics("payment.initiated");
+    }
     
     @Test
     public void testInitiatePaymentSuccess() throws Exception {

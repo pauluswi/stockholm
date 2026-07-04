@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
 @Inherited
 @SpringBootTest
 @ActiveProfiles("test")
-@EmbeddedKafka(partitions = 1, topics = {"payment.initiated"})
+@EmbeddedKafka(partitions = 1)
 public @interface KafkaIntegrationTest {
 }
 
