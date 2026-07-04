@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document>
+  <Ntfctn>
+    <Id>CAMT054-2026-0001</Id>
+    <Ntry>
+      <Amt Ccy="EUR">5000.00</Amt>
+      <CdtDbtInd>DBIT</CdtDbtInd>
+    </Ntry>
+  </Ntfctn>
+</Document>
+

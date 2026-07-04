@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document>
+  <CdtTrfTxInf>
+    <PmtId>
+      <EndToEndId>E2E-2026-0001</EndToEndId>
+    </PmtId>
+    <Amt>
+      <InstdAmt Ccy="EUR">5000.00</InstdAmt>
+    </Amt>
+    <Cdtr>
+      <Nm>TechCorp GmbH</Nm>
+    </Cdtr>
+    <Dbtr>
+      <Nm>ACME Corp</Nm>
+    </Dbtr>
+  </CdtTrfTxInf>
+</Document>
+

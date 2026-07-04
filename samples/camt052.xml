@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document>
+  <Rpt>
+    <GrpHdr>
+      <MsgId>CAMT052-2026-0001</MsgId>
+    </GrpHdr>
+    <Acct>
+      <Id><IBAN>DE02120300000000202051</IBAN></Id>
+    </Acct>
+  </Rpt>
+</Document>
+

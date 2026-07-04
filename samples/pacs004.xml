@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document>
+  <RtrTxInf>
+    <OrgnlEndToEndId>E2E-2026-0001</OrgnlEndToEndId>
+    <OrgnlInstdAmt Ccy="EUR">5000.00</OrgnlInstdAmt>
+    <RtrRsnInf>
+      <Rsn><Cd>AC04</Cd></Rsn>
+    </RtrRsnInf>
+  </RtrTxInf>
+</Document>
+

@@ -85,6 +85,15 @@ Generated example messages include:
 - camt.053
 - camt.054
 
+Sample XML templates are available in [`samples/`](samples/):
+
+- [`pacs008.xml`](samples/pacs008.xml)
+- [`pacs002.xml`](samples/pacs002.xml)
+- [`pacs004.xml`](samples/pacs004.xml)
+- [`camt052.xml`](samples/camt052.xml)
+- [`camt053.xml`](samples/camt053.xml)
+- [`camt054.xml`](samples/camt054.xml)
+
 Sample message snippets:
 
 ```xml

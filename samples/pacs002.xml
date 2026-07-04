@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document>
+  <TxInfAndSts>
+    <OrgnlEndToEndId>E2E-2026-0001</OrgnlEndToEndId>
+    <TxSts>ACCP</TxSts>
+    <StsRsnInf>
+      <Rsn><Cd>000</Cd></Rsn>
+    </StsRsnInf>
+  </TxInfAndSts>
+</Document>
+

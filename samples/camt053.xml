@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document>
+  <Stmt>
+    <Id>STM-2026-0001</Id>
+    <Acct>
+      <Id><IBAN>DE02120300000000202051</IBAN></Id>
+    </Acct>
+    <Bal>
+      <Amt Ccy="EUR">12500.00</Amt>
+    </Bal>
+  </Stmt>
+</Document>
+
