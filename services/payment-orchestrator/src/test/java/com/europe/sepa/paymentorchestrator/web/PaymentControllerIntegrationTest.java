@@ -1,16 +1,12 @@
 package com.europe.sepa.paymentorchestrator.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.europe.sepa.paymentorchestrator.testsupport.KafkaIntegrationTest;
 import com.europe.sepa.paymentorchestrator.web.dto.PaymentRequest;
-import com.europe.sepa.paymentorchestrator.web.dto.PaymentResponse;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -22,15 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * End-to-End integration test for payment initiation.
  * Tests REST endpoint with embedded Kafka.
  */
-@SpringBootTest
+@KafkaIntegrationTest
 @AutoConfigureMockMvc
-@EmbeddedKafka(partitions = 1)
-@TestPropertySource(properties = {
-        "spring.kafka.bootstrap-servers=${spring.embedded.kafka.brokers}",
-        "spring.kafka.admin.fail-fast=false",
-        "spring.kafka.admin.auto-create-topics=false",
-        "stockholm.kafka.create-topics=false"
-})
 public class PaymentControllerIntegrationTest {
     
     @Autowired
@@ -55,17 +44,7 @@ public class PaymentControllerIntegrationTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.paymentId").isNotEmpty())
                 .andExpect(jsonPath("$.status").value("initiated"))
-                .andExpect(jsonPath("$.correlationId").isNotEmpty())
-                .andDo(result -> {
-                    String responseBody = result.getResponse().getContentAsString();
-                    System.out.println("✓ Payment initiated successfully:");
-                    System.out.println("  Response: " + responseBody);
-                    
-                    PaymentResponse response = objectMapper.readValue(responseBody, PaymentResponse.class);
-                    System.out.println("  Payment ID: " + response.getPaymentId());
-                    System.out.println("  Correlation ID: " + response.getCorrelationId());
-                    System.out.println("  Status: " + response.getStatus());
-                });
+                .andExpect(jsonPath("$.correlationId").isNotEmpty());
     }
     
     @Test
@@ -80,11 +59,7 @@ public class PaymentControllerIntegrationTest {
         mockMvc.perform(post("/api/v1/payments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest())
-                .andDo(result -> {
-                    System.out.println("✓ Validation correctly rejected invalid payment:");
-                    System.out.println("  Error: " + result.getResponse().getContentAsString());
-                });
+                .andExpect(status().isBadRequest());
     }
     
     @Test
@@ -101,10 +76,7 @@ public class PaymentControllerIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.status").value("initiated"))
-                .andDo(result -> {
-                    System.out.println("✓ Payment with default currency EUR initiated successfully");
-                });
+                .andExpect(jsonPath("$.status").value("initiated"));
     }
 }
 

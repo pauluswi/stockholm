@@ -1,16 +1,10 @@
 package com.europe.sepa.paymentorchestrator.infrastructure.kafka;
 
 import com.europe.sepa.paymentorchestrator.domain.event.PaymentInitiatedEvent;
-// ...existing code...
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+import com.europe.sepa.paymentorchestrator.testsupport.KafkaIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.test.context.TestPropertySource;
 
 import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
@@ -21,15 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Integration test for Kafka event publishing and consuming.
  * Uses embedded Kafka broker for testing without external infrastructure.
  */
-@SpringBootTest
-@EmbeddedKafka(partitions = 1)
-@TestPropertySource(properties = {
-        "spring.kafka.bootstrap-servers=${spring.embedded.kafka.brokers}",
-        "spring.kafka.admin.fail-fast=false",
-        "spring.kafka.admin.auto-create-topics=false",
-        "stockholm.kafka.topics.paymentInitiated=test-payment.initiated",
-        "stockholm.kafka.create-topics=false"
-})
+@KafkaIntegrationTest
 public class EventPublisherIntegrationTest {
     
     @Autowired
@@ -37,12 +23,6 @@ public class EventPublisherIntegrationTest {
     
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
-    
-    @BeforeEach
-    public void setUp() {
-        assertNotNull(eventPublisher, "EventPublisher should be autowired");
-        assertNotNull(kafkaTemplate, "KafkaTemplate should be autowired");
-    }
     
     @Test
     public void testPublishPaymentInitiatedEvent() throws Exception {
@@ -62,8 +42,8 @@ public class EventPublisherIntegrationTest {
         assertDoesNotThrow(() -> eventPublisher.publish(event));
         
         // Assert
-        // Wait a bit for async publishing
-        Thread.sleep(100);
+        // Give async callback a short window.
+        TimeUnit.MILLISECONDS.sleep(100);
         
         // Verify event properties
         assertEquals(paymentId, event.getPaymentId());
@@ -71,7 +51,8 @@ public class EventPublisherIntegrationTest {
         assertEquals("EUR", event.getCurrency());
         assertEquals(new BigDecimal("100.00"), event.getAmount());
         
-        System.out.println("✓ Event published successfully: " + event);
+        assertNotNull(eventPublisher, "EventPublisher should be autowired");
+        assertNotNull(kafkaTemplate, "KafkaTemplate should be autowired");
     }
     
     @Test
@@ -93,7 +74,7 @@ public class EventPublisherIntegrationTest {
         assertNotNull(event.getEventId());
         assertNotNull(event.getTimestamp());
         
-        System.out.println("✓ Event serialization test passed: " + event.toString());
+        assertNotNull(eventPublisher, "EventPublisher should be autowired");
     }
 }
 
