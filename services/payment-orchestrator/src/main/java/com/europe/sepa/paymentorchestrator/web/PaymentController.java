@@ -1,5 +1,7 @@
 package com.europe.sepa.paymentorchestrator.web;
 
+import com.europe.sepa.paymentorchestrator.domain.event.PaymentInitiatedEvent;
+import com.europe.sepa.paymentorchestrator.infrastructure.kafka.EventPublisher;
 import com.europe.sepa.paymentorchestrator.web.dto.PaymentRequest;
 import com.europe.sepa.paymentorchestrator.web.dto.PaymentResponse;
 import org.slf4j.Logger;
@@ -17,15 +19,29 @@ import java.util.UUID;
 @RequestMapping("/api/v1/payments")
 public class PaymentController {
     private final Logger log = LoggerFactory.getLogger(PaymentController.class);
+    private final EventPublisher eventPublisher;
+    
+    public PaymentController(EventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
+    }
 
     @PostMapping
     public ResponseEntity<PaymentResponse> initiatePayment(@Validated @RequestBody PaymentRequest req) {
         String paymentId = "PAY-" + UUID.randomUUID();
         String correlationId = UUID.randomUUID().toString();
 
-        log.info("Payment initiated: paymentId={}, correlationId={}, amount={}", paymentId, correlationId, req.getAmount());
+        log.info("Payment initiated: paymentId={}, correlationId={}, amount={}", 
+                 paymentId, correlationId, req.getAmount());
 
-        // In future: publish event to Kafka, generate pacs.008
+        // Publish PaymentInitiatedEvent to Kafka
+        PaymentInitiatedEvent event = new PaymentInitiatedEvent(
+                correlationId, paymentId,
+                req.getOrderer(), req.getBeneficiary(),
+                req.getAmount(), req.getCurrency()
+        );
+        
+        eventPublisher.publish(event);
+        log.debug("PaymentInitiatedEvent published: {}", event);
 
         PaymentResponse resp = new PaymentResponse(paymentId, "initiated", correlationId);
         return ResponseEntity.status(201).body(resp);
