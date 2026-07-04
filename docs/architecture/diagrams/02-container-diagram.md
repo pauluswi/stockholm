@@ -19,7 +19,7 @@ graph TB
 
         Ledger["📝 Ledger Service<br/><br/>✓ Update balances<br/>✓ Record transactions<br/>✓ Audit events"]
 
-        Reporting["📊 Reporting Service<br/><br/>✓ Generate camt.052<br/>✓ Generate camt.053<br/>✓ Generate camt.054"]
+        Reporting["📊 Reporting Service<br/><br/>✓ Consume ledger.updated<br/>✓ Generate camt.052<br/>✓ Generate camt.053<br/>✓ Generate camt.054"]
 
         Anomaly["🤖 Anomaly Detection<br/>Service<br/><br/>✓ Calculate risk score<br/>✓ Explain factors<br/>✓ Raise alerts"]
 
@@ -30,7 +30,7 @@ graph TB
 
     subgraph Messaging["📨 Event Backbone"]
         direction TB
-        Kafka["Apache Kafka<br/>Topics:<br/>payment.initiated<br/>settlement.completed<br/>anomaly.detected<br/>...etc"]
+        Kafka["Apache Kafka<br/>Topics:<br/>payment.initiated<br/>settlement.completed<br/>ledger.updated<br/>anomaly.detected<br/>reporting.generated"]
     end
 
     subgraph Data["💾 Data Layer"]
@@ -66,6 +66,9 @@ graph TB
     Reporting -->|Produces<br/>Consumes| Kafka
     Anomaly -->|Produces<br/>Consumes| Kafka
     Monitor -->|Produces<br/>Consumes| Kafka
+
+    Settlement -->|Publishes| Kafka
+    Kafka -->|Consumes ledger.updated| Reporting
 
     Orchestrator -->|Read/Write| Postgres
     Ledger -->|Read/Write| Postgres
@@ -127,7 +130,7 @@ graph TB
 | **Payment Orchestrator** | Payment initiation, ISO 20022 generation, status tracking | Kafka, PostgreSQL, Redis |
 | **Settlement Service** | Mock clearing simulation, pacs.002 generation | Kafka, PostgreSQL, Mock Clearing |
 | **Ledger Service** | Balance management, transaction recording | Kafka, PostgreSQL |
-| **Reporting Service** | CAMT report generation (052/053/054) | Kafka, PostgreSQL |
+| **Reporting Service** | Consume `ledger.updated`, generate CAMT reports (052/053/054) | Kafka, PostgreSQL |
 | **Anomaly Detection** | Risk scoring, anomaly flagging | Kafka, PostgreSQL, Mock Risk Engine |
 | **Resilience Monitor** | Health checks, incident management, DLQ replay | Kafka, PostgreSQL |
 | **Backoffice API** | Operational queries, manual interventions | PostgreSQL |
@@ -253,8 +256,8 @@ Orchestrator ──publish──> Kafka
 - `payment.initiated` - New payment request
 - `payment.validated` - Validation complete
 - `settlement.completed` - Settlement success
+- `ledger.updated` - Balance update propagated to reporting
 - `settlement.failed` - Settlement failure
-- `ledger.updated` - Balance update
 - `anomaly.detected` - Anomaly alert
 - `incident.created` - Incident created
 - `reporting.generated` - Report generated

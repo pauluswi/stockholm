@@ -77,6 +77,7 @@ sequenceDiagram
 - ✅ Audit trail created for every operation
 - ✅ Risk score calculated but payment proceeds (low risk)
 - ✅ Reports generated from updated ledger
+- ✅ Core chain is explicit: `payment.initiated → settlement.completed → ledger.updated → reporting-service`
 
 ---
 

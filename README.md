@@ -87,6 +87,12 @@ All messages are generated locally for demonstration purposes.
 
 Kafka is used as the event backbone.
 
+The core happy-path event chain is:
+
+```text
+payment.initiated → settlement.completed → ledger.updated → reporting-service
+```
+
 Example events:
 
 ```
@@ -132,19 +138,19 @@ Reasons
 
 The architecture allows future replacement of the scoring engine with a machine learning model without changing upstream services.
 
----
-
-# DORA-Inspired Operational Resilience
-
 Stockholm demonstrates architectural patterns inspired by the Digital Operational Resilience Act (DORA).
-
-Implemented concepts include:
-
-## ICT Risk Management
 
 - dependency inventory
 - service health monitoring
 - operational dashboards
+
+The event chain for the core payment flow is:
+
+```text
+Payment Orchestrator → payment.initiated → Settlement Service
+Settlement Service → settlement.completed → Ledger Service
+Ledger Service → ledger.updated → Reporting Service
+```
 
 ## Incident Management
 
@@ -205,17 +211,12 @@ Mock external providers expose health endpoints to simulate dependency failures.
                      │
         ───────── Kafka ─────────
                      │
-     ┌───────────────┼─────────────────┐
-     │               │                 │
-Settlement      Ledger Service   Reporting
- Service                           Service
-     │
-     │
-Anomaly Detection
-     │
-     │
-Resilience Monitor
-     │
+      ├──────────────► Settlement Service ───────────► Ledger Service ───────────► Reporting Service
+      │
+      ├──────────────► Anomaly Detection Service
+      │
+      └──────────────► Resilience Monitor
+
 Backoffice API
 ```
 
@@ -252,15 +253,19 @@ Update Ledger
 
    │
 
+Publish LedgerUpdated
+
+   │
+
+Generate reporting outputs
+
+   │
+
 Calculate Risk Score
 
    │
 
 Create Audit Events
-
-   │
-
-Generate camt Reports
 ```
 
 ---

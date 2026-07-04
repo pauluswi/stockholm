@@ -120,6 +120,12 @@ AI
 Monitoring
 ```
 
+Core event chain:
+
+```text
+payment.initiated → settlement.completed → ledger.updated → reporting-service
+```
+
 ---
 
 # 4. Solution Strategy
@@ -255,12 +261,12 @@ The documentation includes detailed sequence diagrams for three key scenarios:
 
 ## Scenario 1
 
-Successful Payment - Complete lifecycle from initiation through reporting
+Successful Payment - Complete lifecycle from initiation through settlement, ledger update, and reporting
 
 - Payment orchestrator accepts request
 - Settlement service processes clearing
 - Ledger updates balances
-- Anomaly detection calculates risk
+- Reporting consumes `ledger.updated`
 - Reporting generates CAMT messages
 - All operations audited and correlated
 
@@ -289,7 +295,7 @@ Settlement Failure - Retry mechanism and recovery
 ## State Transitions
 
 Payment lifecycle:
-INITIATED → VALIDATED → SETTLED → REPORTED
+INITIATED → VALIDATED → SETTLED → LEDGER_UPDATED → REPORTED
 Or with anomaly:
 INITIATED → HIGH_RISK → APPROVED/BLOCKED
 
@@ -372,6 +378,7 @@ Kafka topics
 * payment.validated
 * settlement.completed
 * settlement.failed
+* ledger.updated
 * anomaly.detected
 * reporting.generated
 * incident.created
