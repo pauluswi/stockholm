@@ -85,6 +85,55 @@ Generated example messages include:
 - camt.053
 - camt.054
 
+Sample message snippets:
+
+```xml
+<!-- pacs.008: Customer Credit Transfer -->
+<Document>
+  <CdtTrfTxInf>
+    <PmtId><EndToEndId>E2E-2026-0001</EndToEndId></PmtId>
+    <Amt><InstdAmt Ccy="EUR">5000.00</InstdAmt></Amt>
+  </CdtTrfTxInf>
+</Document>
+
+<!-- pacs.002: Payment Status Report -->
+<Document>
+  <TxInfAndSts>
+    <OrgnlEndToEndId>E2E-2026-0001</OrgnlEndToEndId>
+    <TxSts>ACCP</TxSts>
+  </TxInfAndSts>
+</Document>
+
+<!-- pacs.004: Payment Return -->
+<Document>
+  <RtrTxInf>
+    <OrgnlEndToEndId>E2E-2026-0001</OrgnlEndToEndId>
+    <RtrRsnInf><Rsn><Cd>AC04</Cd></Rsn></RtrRsnInf>
+  </RtrTxInf>
+</Document>
+
+<!-- camt.052: Intraday Report -->
+<Document>
+  <Rpt>
+    <Acct><Id><IBAN>DE02120300000000202051</IBAN></Id></Acct>
+  </Rpt>
+</Document>
+
+<!-- camt.053: End-of-Day Statement -->
+<Document>
+  <Stmt>
+    <Bal><Amt Ccy="EUR">12500.00</Amt></Bal>
+  </Stmt>
+</Document>
+
+<!-- camt.054: Debit/Credit Notification -->
+<Document>
+  <Ntfctn>
+    <Ntry><Amt Ccy="EUR">5000.00</Amt></Ntry>
+  </Ntfctn>
+</Document>
+```
+
 All messages are generated locally for demonstration purposes.
 
 ---
@@ -111,6 +160,24 @@ LedgerUpdated
 AnomalyDetected
 IncidentCreated
 ReportGenerated
+```
+
+### Example Kafka Message
+
+`payment.initiated` topic payload:
+
+```json
+{
+  "eventId": "550e8400-e29b-41d4-a716-446655440001",
+  "eventType": "PaymentInitiatedEvent",
+  "correlationId": "corr-12345-abcde",
+  "timestamp": "2026-07-04T10:30:00Z",
+  "paymentId": "PAY-2026-0001",
+  "orderer": "ACME Corp",
+  "beneficiary": "TechCorp GmbH",
+  "amount": 5000.00,
+  "currency": "EUR"
+}
 ```
 
 ---
