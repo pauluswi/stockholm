@@ -8,6 +8,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,11 @@ class LedgerUpdatedListenerIntegrationTest {
                 JsonSerializer.ADD_TYPE_INFO_HEADERS, false
         );
         producer = new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(producerProps));
+    }
+
+    @BeforeEach
+    void cleanDatabase() {
+        reportRepository.deleteAll();
     }
 
     @AfterAll

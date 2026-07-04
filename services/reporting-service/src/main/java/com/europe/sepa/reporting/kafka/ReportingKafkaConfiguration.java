@@ -21,6 +21,8 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Locale;
 
 /**
  * Kafka consumer configuration for the reporting service.
@@ -54,8 +56,15 @@ public class ReportingKafkaConfiguration {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
                 String.join(",", kafkaProperties.getBootstrapServers()));
-        configProps.put(ConsumerConfig.GROUP_ID_CONFIG, "reporting-service-group");
-        configProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        String groupId = Optional.ofNullable(kafkaProperties.getConsumer().getGroupId())
+                .filter(s -> !s.isBlank())
+                .orElse("reporting-service-group");
+        configProps.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        configProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,
+                Optional.ofNullable(kafkaProperties.getConsumer().getAutoOffsetReset())
+                        .map(v -> v.toLowerCase(Locale.ROOT))
+                        .orElse("earliest")
+        );
 
         JsonDeserializer<LedgerUpdatedEvent> deserializer =
                 new JsonDeserializer<>(LedgerUpdatedEvent.class);
