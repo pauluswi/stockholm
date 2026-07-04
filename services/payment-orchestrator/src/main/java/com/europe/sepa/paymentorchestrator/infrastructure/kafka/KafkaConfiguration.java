@@ -45,7 +45,7 @@ public class KafkaConfiguration {
     // ============================================
     
     @Bean
-    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = false)
     public NewTopic paymentInitiatedTopic() {
         return TopicBuilder.name(topicProperties.getPaymentInitiated())
                 .partitions(topicProperties.getPartitions())
@@ -54,7 +54,7 @@ public class KafkaConfiguration {
     }
     
     @Bean
-    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = false)
     public NewTopic paymentValidatedTopic() {
         return TopicBuilder.name(topicProperties.getPaymentValidated())
                 .partitions(topicProperties.getPartitions())
@@ -63,7 +63,7 @@ public class KafkaConfiguration {
     }
     
     @Bean
-    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = false)
     public NewTopic settlementCompletedTopic() {
         return TopicBuilder.name(topicProperties.getSettlementCompleted())
                 .partitions(topicProperties.getPartitions())
@@ -72,7 +72,7 @@ public class KafkaConfiguration {
     }
     
     @Bean
-    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = false)
     public NewTopic settlementFailedTopic() {
         return TopicBuilder.name(topicProperties.getSettlementFailed())
                 .partitions(topicProperties.getPartitions())
@@ -81,7 +81,7 @@ public class KafkaConfiguration {
     }
     
     @Bean
-    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = false)
     public NewTopic anomalyDetectedTopic() {
         return TopicBuilder.name(topicProperties.getAnomalyDetected())
                 .partitions(topicProperties.getPartitions())
@@ -90,7 +90,7 @@ public class KafkaConfiguration {
     }
     
     @Bean
-    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = false)
     public NewTopic ledgerUpdatedTopic() {
         return TopicBuilder.name(topicProperties.getLedgerUpdated())
                 .partitions(topicProperties.getPartitions())
@@ -99,7 +99,7 @@ public class KafkaConfiguration {
     }
     
     @Bean
-    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "stockholm.kafka", name = "create-topics", havingValue = "true", matchIfMissing = false)
     public NewTopic reportGeneratedTopic() {
         return TopicBuilder.name(topicProperties.getReportGenerated())
                 .partitions(topicProperties.getPartitions())

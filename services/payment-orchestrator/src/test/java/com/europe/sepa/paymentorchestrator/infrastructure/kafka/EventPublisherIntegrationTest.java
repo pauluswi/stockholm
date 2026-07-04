@@ -30,7 +30,6 @@ import static org.junit.jupiter.api.Assertions.*;
         "stockholm.kafka.topics.paymentInitiated=test-payment.initiated",
         "stockholm.kafka.create-topics=false"
 })
-@Disabled("Integration tests disabled temporarily to avoid embedded Kafka bootstrap issues")
 public class EventPublisherIntegrationTest {
     
     @Autowired

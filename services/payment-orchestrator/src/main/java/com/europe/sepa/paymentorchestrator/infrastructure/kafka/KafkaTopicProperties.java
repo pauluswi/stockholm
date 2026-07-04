@@ -1,13 +1,11 @@
 package com.europe.sepa.paymentorchestrator.infrastructure.kafka;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
  * Configuration properties for Kafka topics.
  * Centralizes topic names and configurations.
  */
-@Component
 @ConfigurationProperties(prefix = "stockholm.kafka.topics")
 public class KafkaTopicProperties {
     

@@ -31,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "spring.kafka.admin.auto-create-topics=false",
         "stockholm.kafka.create-topics=false"
 })
-@Disabled("Integration tests disabled temporarily to avoid embedded Kafka bootstrap issues")
 public class PaymentControllerIntegrationTest {
     
     @Autowired
