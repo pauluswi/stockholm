@@ -1,5 +1,11 @@
 # Stockholm
 
+![Java 21](https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.x-6DB33F?logo=springboot&logoColor=white)
+![Apache Kafka](https://img.shields.io/badge/Kafka-Event%20Driven-231F20?logo=apachekafka&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-Build-C71A36?logo=apachemaven&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+
 > Event-Driven SEPA Payment Orchestrator with AI-Assisted Transaction Anomaly Detection and DORA-Inspired Operational Resilience
 
 ---
