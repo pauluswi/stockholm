@@ -391,27 +391,25 @@ anomaly-detection-service:
   ports:
     - "8087:8087"
   environment:
-    SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/stockholm
     SPRING_DATASOURCE_USERNAME: postgres
     SPRING_DATASOURCE_PASSWORD: postgres
   depends_on:
     - kafka
     - postgres
-  networks:
-    - stockholm-network
 ```
 
 ## Integration with Other Services
 
 ### Payment Flow
 ```
-Payment Orchestrator (8080) — publishes payment.initiated
+Payment Orchestrator (8081) — publishes payment.initiated
     ↓
 Anomaly Detection Service (8087) — scores & publishes anomaly.detected
     ↓
-Reporting Service (8089) — consumes for analytics
-Resilience Monitor (8091) — consumes for incident management
+Reporting Service (8086) — consumes for analytics
+Resilience Monitor (8088) — consumes for incident management
 ```
 
 ### Event Correlation

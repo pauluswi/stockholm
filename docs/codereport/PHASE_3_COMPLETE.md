@@ -16,6 +16,7 @@
 | ✅ Reporting Service | Ready | 8086 | Docker integrated |
 | ✅ Anomaly Detection | Ready | 8087 | Docker integrated |
 | ✅ Resilience Monitor | Ready | 8088 | **NEW - Fully built** |
+| ✅ Backoffice API | Ready | 8089 | **NEW - Operational read API** |
 
 ---
 
@@ -319,7 +320,7 @@ CREATE INDEX idx_correlation_id ON incidents(correlation_id);
 
 ## 🚀 Deployment & Runtime
 
-### Docker Compose Stack (7 Services)
+### Docker Compose Stack (8 Services)
 
 ```yaml
 services:
@@ -330,6 +331,7 @@ services:
   anomaly-detection-service:8087     # Risk scoring
   reporting-service:8086             # Analytics
   resilience-monitor:8088            # Operational resilience
+  backoffice-api:8089                # Operational read API
 ```
 
 ### Multi-Stage Dockerfiles
@@ -584,7 +586,7 @@ docker compose down
 
 | Metric | Value |
 |--------|-------|
-| Services Deployed | 7 (Zookeeper, Kafka, Postgres, Redis, Anomaly, Reporting, Resilience) |
+| Services Deployed | 8 (Zookeeper, Kafka, Postgres, Redis, Anomaly, Reporting, Resilience, Backoffice) |
 | Java Source Files | 25+ |
 | Integration Tests | 10+ |
 | REST API Endpoints | 20+ |
@@ -604,7 +606,8 @@ The Stockholm SEPA Payment Orchestration System now includes:
 4. ✅ **Anomaly Detection** — Scores transactions for risk
 5. ✅ **Reporting Service** — Aggregates payment analytics
 6. ✅ **Resilience Monitor** — Tracks incidents and system health
-7. ✅ **Docker Compose Stack** — Ready for local deployment
+7. ✅ **Backoffice API** — Unified operations read/query endpoints
+8. ✅ **Docker Compose Stack** — Ready for local deployment
 
 **System is production-ready for demonstration and learning.**
 

@@ -297,9 +297,9 @@ Mock external providers expose health endpoints to simulate dependency failures.
       │
       ├──────────────► Anomaly Detection Service
       │
-      └──────────────► Resilience Monitor
-
-Backoffice API
+      ├──────────────► Resilience Monitor
+      │
+      └──────────────► Backoffice API (read model queries)
 ```
 
 ---
@@ -397,12 +397,14 @@ docker compose up -d
 
 Infrastructure includes:
 
+- Zookeeper
 - Kafka
 - PostgreSQL
 - Redis
-- Keycloak
-- Prometheus
-- Grafana
+- Anomaly Detection Service (8087)
+- Reporting Service (8086)
+- Resilience Monitor (8088)
+- Backoffice API (8089)
 
 Run the application
 

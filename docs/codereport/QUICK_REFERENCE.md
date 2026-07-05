@@ -1,6 +1,6 @@
 # Embedded Kafka Quick Reference
 
-**Status**: ✅ Ready to Use | **Date**: July 4, 2026
+**Status**: ✅ Updated with latest services | **Date**: July 5, 2026
 
 ---
 
@@ -360,7 +360,7 @@ public class PaymentService {
 - [x] Correlation ID tracking works
 - [x] Configuration is externalized
 - [x] Error handling is in place
-- [ ] Consumer services implemented
+- [x] Consumer services implemented
 - [ ] Retry/DLQ logic added
 - [ ] Monitoring/alerting configured
 - [ ] Load testing completed
@@ -369,12 +369,13 @@ public class PaymentService {
 
 ## 🎯 Next Phase
 
-1. **Implement Event Consumers**
-   - Settlement Service
-   - Ledger Service
-   - Reporting Service
-   - Anomaly Detection
-   - Resilience Monitor
+1. **Current Operational Services**
+   - Settlement Service ✅
+   - Ledger Service ✅
+   - Reporting Service ✅
+   - Anomaly Detection Service ✅
+   - Resilience Monitor ✅
+   - Backoffice API ✅
 
 2. **Add Persistence**
    - Event Store

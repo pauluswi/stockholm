@@ -35,6 +35,7 @@ You now have a **production-ready operational resilience monitoring service** fu
    - `anomaly-detection-service:8087`
    - `reporting-service:8086`
    - `resilience-monitor:8088`
+   - `backoffice-api:8089`
 
 ---
 
@@ -43,7 +44,7 @@ You now have a **production-ready operational resilience monitoring service** fu
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  Payment Flow with Resilience Monitoring                │
-└────────────────────────────────────────��────────────────┘
+└─────────────────────────────────────────────────────────┘
 
 payment.initiated
     ↓
@@ -240,13 +241,13 @@ docker compose logs -f resilience-monitor
    - Feature breakdown
    - File manifest
 
-3. **PHASE_3_COMPLETE.md** (project root)
+3. **PHASE_3_COMPLETE.md** (`docs/codereport`)
    - Overall status
    - What was accomplished
    - System architecture
    - Deployment checklist
 
-4. **RESILIENCE_MONITOR_QUICK_START.md** (project root)
+4. **RESILIENCE_MONITOR_QUICK_START.md** (`docs/codereport`)
    - Quick reference
    - Common operations
    - Troubleshooting
@@ -449,8 +450,8 @@ System Health Levels:
 
 **Primary Documents:**
 - `services/resilience-monitor/README.md` — Full guide (600+ lines)
-- `RESILIENCE_MONITOR_QUICK_START.md` — Quick reference
-- `PHASE_3_COMPLETE.md` — Overall summary
+- `docs/codereport/RESILIENCE_MONITOR_QUICK_START.md` — Quick reference
+- `docs/codereport/PHASE_3_COMPLETE.md` — Overall summary
 
 **Code Examples:**
 - Event listeners in `kafka/` directory

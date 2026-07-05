@@ -206,7 +206,7 @@ You'll see your event as JSON! 🎉
        ├─► Ledger Service (listens)
        ├─► Anomaly Detection (listens)
        ├─► Resilience Monitor (listens)
-       └─► Backoffice API (listens)
+       └─► Backoffice API (reads from PostgreSQL views)
 ```
 
 ---
@@ -391,13 +391,13 @@ See `KAFKA_SETUP.md` for detailed troubleshooting.
 ### Phase 1: ✅ COMPLETE
 Embedded Kafka setup with event publishing ✓
 
-### Phase 2: Event Consumers (2-3 hours)
-Implement listeners in:
-- [ ] Settlement Service
-- [ ] Ledger Service
-- [ ] Reporting Service
-- [ ] Anomaly Detection Service
-- [ ] Resilience Monitor
+### Phase 2: Event Consumers (Completed)
+Implemented listeners in:
+- [x] Settlement Service
+- [x] Ledger Service
+- [x] Reporting Service
+- [x] Anomaly Detection Service
+- [x] Resilience Monitor
 
 ### Phase 3: Persistence (2-3 hours)
 - [ ] Event Store table
@@ -500,7 +500,7 @@ The **Stockholm payment orchestrator** now has a fully functional, production-re
 ### Ready To
 1. ✅ Develop and test locally
 2. ✅ Deploy to production
-3. ✅ Implement event consumers
+3. ✅ Run implemented consumer chain end-to-end
 4. ✅ Run comprehensive demos
 5. ✅ Add resilience patterns
 
@@ -508,7 +508,7 @@ The **Stockholm payment orchestrator** now has a fully functional, production-re
 
 **Implementation Date**: July 4, 2026
 **Status**: ✅ PRODUCTION READY
-**Next Phase**: Implement event consumers in other services
+**Next Phase**: Expand full compose deployment coverage for all core services
 
 🚀 **Ready to proceed with the next phase!**
 

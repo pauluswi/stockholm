@@ -373,11 +373,12 @@ mvn spring-boot:run
 curl -X POST http://localhost:8081/api/v1/payments ...
 ```
 
-### Phase 2: Create Event Consumers (2 hours)
-- [ ] Settlement Service listener for PaymentInitiatedEvent
-- [ ] Ledger Service listener for SettlementCompletedEvent
-- [ ] Anomaly Detection listener for PaymentInitiatedEvent
-- [ ] Reporting Service listener for LedgerUpdatedEvent
+### Phase 2: Create Event Consumers (Completed)
+- [x] Settlement Service listener for PaymentInitiatedEvent
+- [x] Ledger Service listener for SettlementCompletedEvent
+- [x] Anomaly Detection listener for PaymentInitiatedEvent
+- [x] Reporting Service listener for LedgerUpdatedEvent
+- [x] Resilience Monitor listeners for anomaly/failure events
 
 ### Phase 3: Complete Payment Flow (4 hours)
 - [ ] Implement payment validation service
@@ -500,7 +501,7 @@ Compilation Status: ✅ SUCCESS
 
 Stockholm now has a fully functional event-driven backbone ready for inter-service communication and payment orchestration.
 
-Next: Implement event consumers in Settlement, Ledger, and other services.
+Next: complete full docker-compose coverage for payment-orchestrator, settlement-service, and ledger-service.
 
 **Questions or Issues?** See `KAFKA_SETUP.md` for detailed guidance.
 
