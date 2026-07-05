@@ -1,7 +1,7 @@
-package com.europe.sepa.anomaly.scoring;
+package com.europe.sepa.anomaly.kafka;
 
 import org.junit.jupiter.api.Test;
-
+import com.europe.sepa.anomaly.scoring.RiskScoringEngine;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
