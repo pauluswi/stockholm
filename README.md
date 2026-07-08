@@ -492,11 +492,7 @@ Included documentation:
 - Sequence Diagrams
 - Quality Scenarios
 
-Documentation is located under:
-
-```
-docs/
-```
+Documentation is located under: [docs/architecture](docs/architecture)
 
 ---
 
